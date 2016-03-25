@@ -36,8 +36,8 @@ class SystemController < ApplicationController
     require 'openssl'
     require 'nokogiri'
 
-    #url = params[:url]
-    url = 'http://gps.iwatebus.or.jp/bls/pc/kosha.jsp?jjg=1&jtr=339'
+    url = params[:url]
+    #url = 'http://gps.iwatebus.or.jp/bls/pc/kosha.jsp?jjg=1&jtr=339'
     doc = Nokogiri::HTML(open(url, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read)
     busStops = []
     doc.css('td[bgcolor="#F0F0F0"]').each do |node|
