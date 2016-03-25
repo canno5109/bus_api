@@ -59,6 +59,36 @@ class SystemController < ApplicationController
     @busStops = busStops
   end
 
+  def relevant_system
+    require 'open-uri'
+    require 'openssl'
+    require 'nokogiri'
+
+    pUrl = params[:url]
+    jtr = params[:jtr]
+    kjg = params[:kjg]
+    ktr = params[:ktr]
+    url = pUrl + "&jtr=" + jtr + "&kjg=" + kjg + "&ktr=" + ktr
+    #url = 'http://gps.iwatebus.or.jp/bls/pc/keito.jsp?jjg=1&jtr=1068&kjg=2&ktr=936'
+    doc = Nokogiri::HTML(open(url, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read)
+    dates = []
+    doc.css('td[bgcolor="#EEEEEE"] > blockquote > p[align="left"]').each do |node|
+      for var in node.css('a') do
+        name = var.text
+        url = var['href']
+        # 出力
+        puts name + "\t" + url 
+
+        date_info = {
+          "name": var.text,
+          "url": var['href']
+        }
+        dates.push(date_info)
+      end
+    end
+    @dates = dates
+  end
+
   def weekday
     require 'open-uri'
     require 'openssl'
@@ -68,7 +98,7 @@ class SystemController < ApplicationController
     jtr = params[:jtr]
     kjg = params[:kjg]
     ktr = params[:ktr]
-    ty = params[:ky]
+    ty = params[:ty]
     url = pUrl + "&jtr=" + jtr + "&kjg=" + kjg + "&ktr=" + ktr + "&ty=" + ty
 
     #url = 'http://gps.iwatebus.or.jp/bls/pc/jikoku_jk.jsp?jjg=1&jtr=250&kjg=2&ktr=1025&ty=1'
