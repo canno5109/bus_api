@@ -64,7 +64,13 @@ class SystemController < ApplicationController
     require 'openssl'
     require 'nokogiri'
 
-    url = params[:url]
+    pUrl = params[:url]
+    jtr = params[:jtr]
+    kjg = params[:kjg]
+    ktr = params[:ktr]
+    ty = params[:ky]
+    url = pUrl + "&jtr=" + jtr + "&kjg=" + kjg + "&ktr=" + ktr + "&ty=" + ty
+
     #url = 'http://gps.iwatebus.or.jp/bls/pc/jikoku_jk.jsp?jjg=1&jtr=250&kjg=2&ktr=1025&ty=1'
     doc = Nokogiri::HTML(open(url, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read)
 
@@ -109,7 +115,12 @@ class SystemController < ApplicationController
     require 'openssl'
     require 'nokogiri'
 
-    url = params[:url]
+    pUrl = params[:url]
+    jtr = params[:jtr]
+    kjg = params[:kjg]
+    ktr = params[:ktr]
+    ty = params[:ky]
+    url = pUrl + "&jtr=" + jtr + "&kjg=" + kjg + "&ktr=" + ktr + "&ty=" + ty
     #url = 'http://gps.iwatebus.or.jp/bls/pc/jikoku_jk.jsp?jjg=1&jtr=250&kjg=2&ktr=1025&ty=1'
     doc = Nokogiri::HTML(open(url, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read)
 
@@ -154,7 +165,12 @@ class SystemController < ApplicationController
     require 'openssl'
     require 'nokogiri'
 
-    url = params[:url]
+    pUrl = params[:url]
+    jtr = params[:jtr]
+    kjg = params[:kjg]
+    ktr = params[:ktr]
+    ty = params[:ky]
+    url = pUrl + "&jtr=" + jtr + "&kjg=" + kjg + "&ktr=" + ktr + "&ty=" + ty
     #url = 'http://gps.iwatebus.or.jp/bls/pc/jikoku_jk.jsp?jjg=1&jtr=250&kjg=2&ktr=1025&ty=1'
     doc = Nokogiri::HTML(open(url, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read)
 
@@ -192,8 +208,5 @@ class SystemController < ApplicationController
     end
 
     @saturdays = weekdays
-  end
-
-  def get_time_table
   end
 end
