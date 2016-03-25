@@ -140,56 +140,6 @@ class SystemController < ApplicationController
     @weekdays = weekdays
   end
 
-  def holiday
-    require 'open-uri'
-    require 'openssl'
-    require 'nokogiri'
-
-    pUrl = params[:url]
-    jtr = params[:jtr]
-    kjg = params[:kjg]
-    ktr = params[:ktr]
-    ty = params[:ky]
-    url = pUrl + "&jtr=" + jtr + "&kjg=" + kjg + "&ktr=" + ktr + "&ty=" + ty
-    #url = 'http://gps.iwatebus.or.jp/bls/pc/jikoku_jk.jsp?jjg=1&jtr=250&kjg=2&ktr=1025&ty=1'
-    doc = Nokogiri::HTML(open(url, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read)
-
-    hours = []
-    doc.css('td[class="dya-hour"]').each do |node|
-      hour = node.css('div > strong').text
-      hours.push(hour)
-    end
-
-    times1 = []
-    doc.css('td[class="dya-min-even"]').each do |node|
-      time1 = node.text.to_s
-      times1.push(time1)
-    end
-
-    times2 = []
-    doc.css('td[class="dya-min-odd"]').each do |node|
-      time2 = node.text.to_s
-      times2.push(time2)
-    end
-
-    times = []
-    for num in 0..9 do
-      times.push(times1[num])
-      times.push(times2[num])
-    end
-
-    weekdays = []
-    for num in 0..20 do
-      weekdayInfo = {
-        "hour": hours[num],
-        "times": times[num]
-      }
-      weekdays.push(weekdayInfo)
-    end
-
-    @holidays = weekdays
-  end
-
   def saturday
     require 'open-uri'
     require 'openssl'
@@ -199,9 +149,10 @@ class SystemController < ApplicationController
     jtr = params[:jtr]
     kjg = params[:kjg]
     ktr = params[:ktr]
-    ty = params[:ky]
+    ty = params[:ty]
     url = pUrl + "&jtr=" + jtr + "&kjg=" + kjg + "&ktr=" + ktr + "&ty=" + ty
-    #url = 'http://gps.iwatebus.or.jp/bls/pc/jikoku_jk.jsp?jjg=1&jtr=250&kjg=2&ktr=1025&ty=1'
+    #url = 'http://gps.iwatebus.or.jp/bls/pc/jikoku_jk.jsp?jjg=1&jtr=339&kjg=1&ktr=9&ty=2'
+    #saturday.json?url=http://gps.iwatebus.or.jp/bls/pc/jikoku_jk.jsp?jjg=1&jtr=339&kjg=1&ktr=9&ty=2
     doc = Nokogiri::HTML(open(url, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read)
 
     hours = []
@@ -223,7 +174,7 @@ class SystemController < ApplicationController
     end
 
     times = []
-    for num in 0..9 do
+    for num in 0..10 do
       times.push(times1[num])
       times.push(times2[num])
     end
@@ -238,5 +189,55 @@ class SystemController < ApplicationController
     end
 
     @saturdays = weekdays
+  end
+
+  def holiday
+    require 'open-uri'
+    require 'openssl'
+    require 'nokogiri'
+
+    pUrl = params[:url]
+    jtr = params[:jtr]
+    kjg = params[:kjg]
+    ktr = params[:ktr]
+    ty = params[:ty]
+    url = pUrl + "&jtr=" + jtr + "&kjg=" + kjg + "&ktr=" + ktr + "&ty=" + ty
+    #url = 'http://gps.iwatebus.or.jp/bls/pc/jikoku_jk.jsp?jjg=1&jtr=250&kjg=2&ktr=1025&ty=1'
+    doc = Nokogiri::HTML(open(url, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read)
+
+    hours = []
+    doc.css('td[class="dya-hour"]').each do |node|
+      hour = node.css('div > strong').text
+      hours.push(hour)
+    end
+
+    times1 = []
+    doc.css('td[class="dya-min-even"]').each do |node|
+      time1 = node.text.to_s
+      times1.push(time1)
+    end
+
+    times2 = []
+    doc.css('td[class="dya-min-odd"]').each do |node|
+      time2 = node.text.to_s
+      times2.push(time2)
+    end
+
+    times = []
+    for num in 0..10 do
+      times.push(times1[num])
+      times.push(times2[num])
+    end
+
+    weekdays = []
+    for num in 0..20 do
+      weekdayInfo = {
+        "hour": hours[num],
+        "times": times[num]
+      }
+      weekdays.push(weekdayInfo)
+    end
+
+    @holidays = weekdays
   end
 end
