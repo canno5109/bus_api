@@ -123,7 +123,7 @@ class SystemController < ApplicationController
     end
 
     times = []
-    for num in 0..9 do
+    for num in 0..10 do
       times.push(times1[num])
       times.push(times2[num])
     end
