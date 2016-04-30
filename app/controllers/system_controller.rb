@@ -1,4 +1,7 @@
 class SystemController < ApplicationController
+  # indexアクションをキャッシュ（有効期限３時間）
+  caches_action :ride, :expires_in => 3.hours
+
   def index
     @version = "1.0"
     @date = DateTime.now.strftime('%Y-%m-%d %H-%M')
