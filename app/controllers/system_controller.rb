@@ -1,5 +1,5 @@
 class SystemController < ApplicationController
-  caches_action :ride, :expires_in => 12.hours
+  //caches_action :ride, :expires_in => 12.hours
 
   def index
     @version = "1.0"
