@@ -1,6 +1,5 @@
 class SystemController < ApplicationController
-  # indexアクションをキャッシュ（有効期限３時間）
-  #caches_action :ride, :expires_in => 3.hours
+  caches_action :ride, :expires_in => 12.hours
 
   def index
     @version = "1.0"
